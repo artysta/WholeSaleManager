@@ -38,3 +38,19 @@ Dla każdego zamówienia mamy jako admin możliwość wyświetlenia szczegółó
 
 
 ## Panel użytkownika - zarys funkcjonalności
+
+Po zarejestrowaniu się w aplikacji użytkownik otrzyma na swój adres e-mail wiadomość umożliwiająca potwierdzenie podanego w procesie rejestracji adresu. W przypadku użytkowników autoryzowanych potwierdzenie adresu e-mail jest wymagane.
+
+### Składanie zamówienia, koszyk oraz podsumowanie
+
+W momencie składania zamówienia dla danego produktu podane są ceny w zależności od ilości w zamówieniu. 
+
+Na etapie koszyka zamówienia użytkownik może edytować zamówienie, m.in. zmieniać ilości oraz usuwać dane pozycje. Jeżeli edycja ilości sprawi, że przekroczy ona zakres dla danej ceny, suma w zamówieniu zostanie automatycznie zaktualizowana.
+
+W następnym etapie wyświetla się podsumowanie zamówienia, gdzie należy także podać dane do wysyłki.
+
+Następnie następuje przekierowanie do bramki płatniczej, a w momencie dokonania płatności zostaje wyświetlony komunikat o pomyślnym bądź też nie sfinalizowaniu zamówienia, użytkownik otrzymuje także wiadomość SMS z potwierdzeniem oraz numerem zamówienia.
+
+
+### Historia zamówień
+Użytkownik może także śledzić zamówienia w panelu historia zamówień. Jest tam możliwość wyświetlenia informacji jakie użytkownik podał w momencie składanie zamówienia, a także podgląd statusu zamówienia.
