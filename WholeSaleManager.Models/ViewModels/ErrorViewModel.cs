@@ -1,6 +1,4 @@
-using System;
-
-namespace WholeSaleManager.Web.Models
+namespace WholeSaleManager.Models.ViewModels
 {
     public class ErrorViewModel
     {

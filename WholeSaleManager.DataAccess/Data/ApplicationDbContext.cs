@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WholeSaleManager.Web.Data
+namespace WholeSaleManager.DataAccess.Data
 {
 	public class ApplicationDbContext : IdentityDbContext
 	{
