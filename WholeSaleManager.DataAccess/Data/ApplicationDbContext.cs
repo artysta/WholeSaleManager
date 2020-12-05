@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WholeSaleManager.Models;
 
 namespace WholeSaleManager.DataAccess.Data
 {
@@ -9,5 +10,7 @@ namespace WholeSaleManager.DataAccess.Data
 			: base(options)
 		{
 		}
+
+		public DbSet<Category> Categories { get; set; }
 	}
 }
