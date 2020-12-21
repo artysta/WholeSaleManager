@@ -6,6 +6,7 @@ namespace WholeSaleManager.DataAccess.Repository.IRepository
 	{
 		ICategoryRepository Category { get; }
 		IManufacturerRepository Manufacturer { get; }
+		IProductRepository Product { get; }
 		ISP_Call SP_Call { get; }
 		void Save();
 	}
