@@ -32,13 +32,13 @@ namespace WholeSaleManager.Models
 		public string ImageUrl { get; set; }
 
 		[Required]
-		public string CategoryId { get; set; }
+		public int CategoryId { get; set; }
 
 		[ForeignKey("CategoryId")]
 		public Category Category { get; set; }
 
 		[Required]
-		public string ManufacturerId { get; set; }
+		public int ManufacturerId { get; set; }
 
 		[ForeignKey("ManufacturerId")]
 		public Manufacturer Manufacturer { get; set; }
