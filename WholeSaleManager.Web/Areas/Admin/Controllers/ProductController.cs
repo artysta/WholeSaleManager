@@ -139,7 +139,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var allObj = _unitOfWork.Product.GetAll(includeProperties: "Category, Manufacturer");
+            var allObj = _unitOfWork.Product.GetAll(includeProperties: "Category,Manufacturer");
             return Json(new { data = allObj });
         }
 
