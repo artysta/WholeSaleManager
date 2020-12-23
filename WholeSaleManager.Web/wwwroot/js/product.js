@@ -21,11 +21,11 @@ function loadDataTable() {
                 "width": "15%"
             },
             {
-                "data": "category.Name",
+                "data": "category.name",
                 "width": "15%"
             },
             {
-                "data": "manufacturer.Name",
+                "data": "manufacturer.name",
                 "width": "15%"
             },
             {
