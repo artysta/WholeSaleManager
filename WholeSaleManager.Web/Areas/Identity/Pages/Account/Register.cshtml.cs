@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WholeSaleManager.DataAccess.Repository.IRepository;
@@ -82,11 +84,30 @@ namespace WholeSaleManager.Web.Areas.Identity.Pages.Account
             public int? CompanyId { get; set; }
 
             public string Role { get; set; }
+
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+            public IEnumerable<SelectListItem> RoleList { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+
+            Input = new InputModel()
+            {
+                CompanyList = _unitOfWork.Company.GetAll().Select(p => new SelectListItem
+                {
+                    Text = p.Name,
+                    Value = p.Id.ToString()
+                }),
+                RoleList = _roleManager.Roles.Where(u => u.Name != StaticDetails.Role_User_Indi).Select(x => x.Name).Select(p => new SelectListItem
+                {
+                    Text = p,
+                    Value = p
+                })
+            };
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
