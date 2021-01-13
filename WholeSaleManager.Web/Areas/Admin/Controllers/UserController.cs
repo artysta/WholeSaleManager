@@ -15,7 +15,7 @@ namespace BulkyBook.Areas.Admin.Controllers
         public UserController(IUnitOfWork unitOfWork, ApplicationDbContext db)
         {
             _unitOfWork = unitOfWork;
-            _db = db
+            _db = db;
         }
 
         public IActionResult Index()
