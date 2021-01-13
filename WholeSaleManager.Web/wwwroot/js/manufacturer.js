@@ -10,7 +10,7 @@ function loadDataTable() {
         "columns": [
             {
                 "data": "name",
-                "wdith": "60%"
+                "width": "60%"
             },
             {
                 "data": "id",
