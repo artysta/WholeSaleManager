@@ -47,26 +47,19 @@ function loadDataTable() {
     });
 }
 
-function Delete(url) {
-    swal({
-        title: "Do you really want to delete this category?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true
-    }).then((d) => {
-        if (d) {
-            $.ajax({
-                type: "DELETE",
-                url: url,
-                success: function (data) {
-                    if (data.success) {
-                        toastr.success(data.message);
-                        dataTable.ajax.reload();
-                    } else {
-                        toastr.error(data.message);
-                    }
-                }
-            });
-        }
+function LockUnlock(id) {
+    $.ajax({
+        type: "POST",
+        url: '/Admin/User/LockUnlock',
+        data: JSON.stringify(id),
+        contentType: "application/json",
+        success: function (data) {
+             if (data.success) {
+                     toastr.success(data.message);
+                     dataTable.ajax.reload();
+                 } else {
+                     toastr.error(data.message);
+                 }
+             }
     });
 }
