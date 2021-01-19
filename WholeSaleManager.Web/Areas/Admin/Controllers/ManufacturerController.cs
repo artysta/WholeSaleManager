@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WholeSaleManager.DataAccess.Repository.IRepository;
 using WholeSaleManager.Models;
+using WholeSaleManager.Utility;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+    [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
+
     public class ManufacturerController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

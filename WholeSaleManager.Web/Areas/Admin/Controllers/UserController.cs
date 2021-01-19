@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using WholeSaleManager.DataAccess.Data;
 using WholeSaleManager.DataAccess.Repository.IRepository;
 using WholeSaleManager.Models;
+using WholeSaleManager.Utility;
 
 namespace BulkyBook.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.Role_Admin + "," + StaticDetails.Role_Employee)]
+
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -51,10 +55,10 @@ namespace BulkyBook.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult LockUnlock([FromBody] string id)
         {
-            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+            var objFromDb = _db.ApplicationUsers.FirstOrDefault(user => user.Id == id);
             if(objFromDb == null)
             {
-                return Json(new { success = false, message = "Error while Locking/Unlocking" });
+                return Json(new { success = false, message = "An error occured while Locking/Unlocking" });
             }
             if(objFromDb.LockoutEnd!=null && objFromDb.LockoutEnd > DateTime.Now)
             {
