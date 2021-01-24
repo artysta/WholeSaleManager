@@ -29,6 +29,18 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
             return View(products);
         }
 
+        public IActionResult Details(int id)
+        {
+            var productFromDb = _unitOfWork.Product.
+                GetFirstOrDefault(p => p.Id == id, includeProperties: "Category,Manufacturer");
+            ShoppingCart cartObj = new ShoppingCart() 
+            {
+                Product=productFromDb,
+                ProductId=productFromDb.Id
+            };
+            return View(cartObj);
+        }
+
         public IActionResult Privacy()
         {
             return View();
