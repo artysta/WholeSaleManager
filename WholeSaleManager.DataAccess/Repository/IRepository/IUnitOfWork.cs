@@ -9,6 +9,9 @@ namespace WholeSaleManager.DataAccess.Repository.IRepository
 		IManufacturerRepository Manufacturer { get; }
 		IProductRepository Product { get; }
 		IApplicationUserRepository ApplicationUser { get; }
+		IShoppingCartRepository ShoppingCart { get; }
+		IOrderHeaderRepository OrderHeader { get; }
+		IOrderDetailsRepository OrderDetails { get; }
 		ISP_Call SP_Call { get; }
 		void Save();
 	}
