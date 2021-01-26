@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using WholeSaleManager.Models.ViewModels;
 using WholeSaleManager.DataAccess.Repository.IRepository;
 using WholeSaleManager.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace WholeSaleManager.Web.Areas.Customer.Controllers
 {
@@ -39,6 +41,50 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
                 ProductId=productFromDb.Id
             };
             return View(cartObj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult Details(ShoppingCart CartObj)
+        {
+            CartObj.Id = 0;
+            if (ModelState.IsValid)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                CartObj.ApplicationUserId = claim.Value;
+
+                ShoppingCart cartFromDatabase = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                    user => user.ApplicationUserId == CartObj.ApplicationUserId &&
+                    user.ProductId == CartObj.ProductId,
+                    includeProperties: "Product"
+                    );
+                if(cartFromDatabase == null)
+                {
+                    // no records in Db
+                    _unitOfWork.ShoppingCart.Add(CartObj);
+                }
+                else
+                {
+                    cartFromDatabase.Count += CartObj.Count;
+                    _unitOfWork.ShoppingCart.Update(cartFromDatabase);
+                }
+                _unitOfWork.Save();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var productFromDb = _unitOfWork.Product.
+                GetFirstOrDefault(p => p.Id == CartObj.ProductId, includeProperties: "Category,Manufacturer");
+                ShoppingCart CartObject = new ShoppingCart()
+                {
+                    Product = productFromDb,
+                    ProductId = productFromDb.Id
+                };
+                return View(CartObject);
+            }
         }
 
         public IActionResult Privacy()
