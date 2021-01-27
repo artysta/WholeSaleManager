@@ -10,6 +10,9 @@ using WholeSaleManager.DataAccess.Repository.IRepository;
 using WholeSaleManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using WholeSaleManager.Utility;
+using Microsoft.AspNetCore.Http;
+
 
 namespace WholeSaleManager.Web.Areas.Customer.Controllers
 {
@@ -28,6 +31,20 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
         public IActionResult Index()
         {
             IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,Manufacturer");
+            
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claim != null)
+            {
+                var count = _unitOfWork.ShoppingCart.GetAll(
+                   cart => cart.ApplicationUserId == claim.Value)
+                   .ToList().Count();
+
+
+                HttpContext.Session.SetInt32(StaticDetails.sessionShoppingCart, count);
+
+            }
             return View(products);
         }
 
@@ -72,6 +89,12 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
                 }
                 _unitOfWork.Save();
 
+                var count = _unitOfWork.ShoppingCart.GetAll(
+                    cart => cart.ApplicationUserId == CartObj.ApplicationUserId)
+                    .ToList().Count();
+
+
+                HttpContext.Session.SetInt32(StaticDetails.sessionShoppingCart, count);
                 return RedirectToAction(nameof(Index));
             }
             else
