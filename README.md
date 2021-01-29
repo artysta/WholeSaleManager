@@ -19,11 +19,6 @@ Admin może także utworzyć konto indywidualne a także dokonać jego blokady.
 
 W momencie tworzenia nowego użytkownika, w panelu mamy mozliwość dokonania wyboru roli danego użytkownika. W przypadku, gdy jest to użytkownik firmowy, taki użytkownik musi być przyporządkowany do danej firmy, za pomocą jej indywidualnego unikatowego ID.
 
-### Autoryzowany profil firmowy
-
-W panelu tworzenia firmy jest także możliwość jej autoryzacji jej. Nieautoryzowana firma działa jak zwykły użytkownik. 
-
-Jeśli natomiast firma zostanie zautoryzowana a jej email jest zarejestrowany, może ona wtedy dokonywać zamówień i dokonywać płatności do 30 dni od momentu zamówienia. 
 
 ### Zarządzanie zamówieniami
 
@@ -38,8 +33,6 @@ Dla każdego zamówienia mamy jako admin możliwość wyświetlenia szczegółó
 
 
 ## Panel użytkownika - zarys funkcjonalności
-
-Po zarejestrowaniu się w aplikacji użytkownik otrzyma na swój adres e-mail wiadomość umożliwiająca potwierdzenie podanego w procesie rejestracji adresu. W przypadku użytkowników autoryzowanych potwierdzenie adresu e-mail jest wymagane.
 
 ### Składanie zamówienia, koszyk oraz podsumowanie
 
