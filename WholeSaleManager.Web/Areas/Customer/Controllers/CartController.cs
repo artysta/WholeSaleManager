@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -66,6 +67,44 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
             cart.Price = StaticDetails.GetTotalPrice(
                 cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
             _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Decrement(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                c => c.Id == cartId, includeProperties: "Product");
+
+            if(cart.Count == 1)
+            {
+                _unitOfWork.ShoppingCart.Remove(cart);
+                _unitOfWork.Save();
+                var cnt = _unitOfWork.ShoppingCart.GetAll(
+                    u=>u.ApplicationUserId==cart.ApplicationUserId).ToList().Count();
+                HttpContext.Session.SetInt32(StaticDetails.sessionShoppingCart, cnt - 1);
+
+            }
+            else
+            {
+                cart.Count -= 1;
+                cart.Price = StaticDetails.GetTotalPrice(
+                cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
+                _unitOfWork.Save();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                c => c.Id == cartId, includeProperties: "Product");
+
+            _unitOfWork.ShoppingCart.Remove(cart);
+            _unitOfWork.Save();
+            var cnt = _unitOfWork.ShoppingCart.GetAll(
+                u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count();
+            HttpContext.Session.SetInt32(StaticDetails.sessionShoppingCart, cnt - 1);
+
             return RedirectToAction(nameof(Index));
         }
     }
