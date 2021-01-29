@@ -31,7 +31,6 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
         public IActionResult Index()
         {
             IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,Manufacturer");
-            
 
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
