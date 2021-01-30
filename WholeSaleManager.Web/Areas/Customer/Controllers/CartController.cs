@@ -107,5 +107,39 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Summary()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            SCVM = new ShoppingCartViewModel
+            {
+                OrderHeader = new OrderHeader(),
+                Carts = _unitOfWork.ShoppingCart.GetAll(
+                    c => c.ApplicationUserId == claim.Value,
+                    includeProperties: "Product")
+            };
+            
+            SCVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.
+                GetFirstOrDefault(c => c.Id == claim.Value,
+                includeProperties: "Company");
+
+            foreach (var cart in SCVM.Carts)
+            {
+                cart.Price = StaticDetails.GetTotalPrice(
+                    cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
+                SCVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            }
+
+            SCVM.OrderHeader.Name = SCVM.OrderHeader.ApplicationUser.Name;
+            SCVM.OrderHeader.PhoneNumber = SCVM.OrderHeader.ApplicationUser.PhoneNumber;
+            SCVM.OrderHeader.StreetAddress = SCVM.OrderHeader.ApplicationUser.StreetAddress;
+            SCVM.OrderHeader.City = SCVM.OrderHeader.ApplicationUser.City;
+            SCVM.OrderHeader.State = SCVM.OrderHeader.ApplicationUser.State;
+            SCVM.OrderHeader.PostalCode = SCVM.OrderHeader.ApplicationUser.PostalCode;
+
+            return View(SCVM);
+        }
     }
 }
