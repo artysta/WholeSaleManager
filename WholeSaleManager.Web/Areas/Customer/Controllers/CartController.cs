@@ -141,5 +141,49 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
 
             return View(SCVM);
         }
+
+        [HttpPost]
+        [ActionName("Summary")]
+        [ValidateAntiForgeryToken]
+        public IActionResult SummaryPOST()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            SCVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(
+                c=>c.Id == claim.Value,
+                includeProperties:"Company");
+
+            SCVM.Carts = _unitOfWork.ShoppingCart.GetAll(
+                c=>c.ApplicationUserId==claim.Value,
+                includeProperties: "Product");
+
+            SCVM.OrderHeader.PaymentStatus = StaticDetails.PaymentStatusPending;
+            SCVM.OrderHeader.OrderStatus = StaticDetails.StatusPending;
+            SCVM.OrderHeader.ApplicationUserId = claim.Value;
+            SCVM.OrderHeader.OrderDate = DateTime.Now;
+
+            _unitOfWork.OrderHeader.Add(SCVM.OrderHeader);
+            _unitOfWork.Save();
+
+            List<OrderDetails> orderDetailsList = new List<OrderDetails>();
+            foreach(var item in SCVM.Carts)
+            {
+                OrderDetails orderDetails = new OrderDetails()
+                {
+                    ProductId = item.ProductId,
+                    OrderId = SCVM.OrderHeader.Id,
+                    Price = item.Price,
+                    Count = item.Count
+                };
+                SCVM.OrderHeader.OrderTotal += orderDetails.Count * orderDetails.Price;
+                _unitOfWork.OrderDetails.Add(orderDetails);
+                _unitOfWork.Save();
+            }
+
+            _unitOfWork.ShoppingCart.RemoveRange(SCVM.Carts);
+            HttpContext.Session.SetInt32(StaticDetails.sessionShoppingCart, 0);
+
+            return RedirectToAction("OrderConfirmation", "Cart", new { id = SCVM.OrderHeader.Id });
+        }
     }
 }
