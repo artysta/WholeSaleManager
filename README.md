@@ -1,15 +1,33 @@
 # WholeSaleManager
 Projekt zaliczeniowy wykonany na potrzeby przedmiotu Programowanie w środowisku ASP.NET.
 
-## Krótki opis aplikacji
+## 1. Instrukcja
+
+By możliwe było uruchomienie aplikacji konieczne jest:
+  - zainstalowanie oprogramowania Visual Studio 2019 (wystarczy wersja community),
+  - zainstalowanie Visual Studio 2019 SDK .NET 5.0,
+  - zainstalowanie .NET 5 Runtime,
+  - zainstalowanie MsSQL Server,
+  - sklonowanie repozytorium:
+              
+        git clone https://github.com/artysta/WholeSaleManager.git
+  
+  - wpisanie w konsoli narzędzia NuGet Package Manager (po otworzeniu Visual Studio otworzyć ją można klikając Tools -> NuGet Package Manager -> Package Manager Console) polecenia:
+
+        update-database
+        
+  - domyślna nazwa serwera bazy danych to `(localdb)\\mssqllocaldb`, można zmienić ją edytując `DefaultConnection` w plliku `appsettings.json` znajdującym się wewnątrz projektu **WholeSaleManager.Web**.
+
+## 2. Krótki opis aplikacji
+
 Nasza aplikacja będzie umożliwiała zarządzanie zamówieniami hurtowo z umożliwieniem zniżki w zależności od zamówionych ilości. 
 
 Docelowym klientem będą firmy budowlane.
 
 Materiały budowlane będzie można zamawiać zarówno jako firma, a także jako indywidualny użytkownik, przy czym w przypadku firmy możemy spodziewać się benefitów.
 
-## Panel administratora - zarys funkcjonalności
-Logowanie za pomocą loginu oraz hasła, a także możliwość logowania za pomocą Facebooka lub Gmaila.
+## 3. Panel administratora - zarys funkcjonalności
+Logowanie za pomocą loginu oraz hasła.
 
 Panel zarządzania zawartością, np. kategoriami produktu, a także samym produktem (np. ustalenie progów cenowych w zależnosci od wielkości zamówienia).
 
@@ -23,16 +41,15 @@ W momencie tworzenia nowego użytkownika, w panelu mamy mozliwość dokonania wy
 ### Zarządzanie zamówieniami
 
 Konto admina ma możliwość zarządzania wszystkimi zamówieniami, z wyszczególnieniem na zamówienia:
-- w toku
-- oczekujące na potwierdzenie płatności
-- zakończone
-- odrzucone
-- wszystkie
+- w toku,
+- oczekujące na potwierdzenie płatności,
+- zakończone,
+- odrzucone,
+- wszystkie.
 
 Dla każdego zamówienia mamy jako admin możliwość wyświetlenia szczegółów, gdzie możemy m.in. dodać rodzaj transportu/dostawy itp, a także rozpocząć procesowanie lub dokonać anulacji zamówienia.
 
-
-## Panel użytkownika - zarys funkcjonalności
+## 4. Panel użytkownika - zarys funkcjonalności
 
 ### Składanie zamówienia, koszyk oraz podsumowanie
 
