@@ -50,7 +50,7 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
 
             foreach(var cart in SCVM.Carts)
             {
-                cart.Price = StaticDetails.GetTotalPrice(
+                cart.Price = StaticDetails.GetPrice(
                     cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
                 SCVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
@@ -64,7 +64,7 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
                 c => c.Id == cartId, includeProperties: "Product");
 
             cart.Count += 1;
-            cart.Price = StaticDetails.GetTotalPrice(
+            cart.Price = StaticDetails.GetPrice(
                 cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
@@ -87,7 +87,7 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
             else
             {
                 cart.Count -= 1;
-                cart.Price = StaticDetails.GetTotalPrice(
+                cart.Price = StaticDetails.GetPrice(
                 cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
                 _unitOfWork.Save();
             }
@@ -127,7 +127,7 @@ namespace WholeSaleManager.Web.Areas.Customer.Controllers
 
             foreach (var cart in SCVM.Carts)
             {
-                cart.Price = StaticDetails.GetTotalPrice(
+                cart.Price = StaticDetails.GetPrice(
                     cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
                 SCVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }

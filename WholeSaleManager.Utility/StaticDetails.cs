@@ -23,7 +23,7 @@
 
 
 
-		public static double GetTotalPrice(double quantity, double price, double price50, double price100)
+		public static double GetPrice(double quantity, double price, double price50, double price100)
         {
 			if(quantity < 50)
             {
